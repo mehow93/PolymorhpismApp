@@ -8,12 +8,17 @@
 #endif // BASEPARSER_H
 
 class Input{
-
+private:
+    std::string mOrginalContent;
+    std::string mProcessedContent;
 public:
-
-    virtual std::string getData(std::string source) = 0;
-    virtual std::string deleteChar(std::string& inputString, char charToDelete) = 0;
+    std::string& getOrginalContent() { return mOrginalContent;}
+    void setOrginalContent(std::string Input) {mOrginalContent = Input;}
+    std::string getProcessesContent() { return mProcessedContent;}
+    void setProcessedContent(std::string Input) {mProcessedContent = Input;}
     virtual ~Input() = default;
+    virtual std::string getData(std::string source) = 0;
+
 
 };
 

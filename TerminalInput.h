@@ -6,14 +6,15 @@
 #include <sstream>
 #include <fstream>
 #include "Input.h"
+#include "Operations.h"
 
-class TerminalInput : public Input{
-
+class TerminalInput : public Input, public Operations{
 
 
 public:
-    virtual std::string getData(std::string command) override;
+
     virtual std::string deleteChar(std::string& inputString, char charToDelete) override;
+    virtual std::string getData(std::string source) override;
     virtual ~TerminalInput() = default;
 
 };
