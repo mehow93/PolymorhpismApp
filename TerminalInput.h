@@ -8,14 +8,12 @@
 #include "Input.h"
 #include "Operations.h"
 
-class TerminalInput : public Input, public Operations{
+class TerminalInput : public Input {
 
 
 public:
 
-    virtual std::string deleteChar(std::string& inputString, char charToDelete) override;
-    virtual std::string getData(std::string source) override;
-    virtual ~TerminalInput() = default;
 
+    virtual std::string getData(std::string source) override;
 };
 
