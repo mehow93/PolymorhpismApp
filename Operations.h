@@ -8,7 +8,13 @@
 
 
 class DeleteChar {
-
 public:
      std::string deleteChar(std::string& inputString, char charToDelete);
+};
+
+class ReverseData{
+public:
+    std::string reverseData(std::string& inputData);
+
+
 };
