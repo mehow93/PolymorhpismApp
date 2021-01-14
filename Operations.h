@@ -7,11 +7,8 @@
 #endif // OPERATIONS_H
 
 
-class Operations {
+class DeleteChar {
 
 public:
-    virtual ~Operations() = default;
-    virtual std::string deleteChar(std::string& inputString, char charToDelete) = 0;
-
-
+     std::string deleteChar(std::string& inputString, char charToDelete);
 };
