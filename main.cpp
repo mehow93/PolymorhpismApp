@@ -1,13 +1,15 @@
 #include <memory>
 #include <gtest/gtest.h>
 #include "TerminalInput.h"
+#include "Operations.h"
 
 TEST(terminalTest, oneLineInput){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    ASSERT_EQ("Hello World", t1->getData("echo -n Hello World"));
+    t1->getData("echo -n Hello World");
+    ASSERT_EQ("Hello World", t1->getOrginalContent());
 };
 
-TEST(terminalTest, inputWithWhiteSpace){
+/*TEST(terminalTest, inputWithWhiteSpace){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
     ASSERT_EQ("Hello World\n", t1->getData("echo Hello World"));
 };
@@ -61,16 +63,16 @@ TEST(terminalTest, deleteCharInTheMiddleOfSecondWord){
     std::string testString = "abcde xyz";
     ASSERT_EQ("abcde x_z",t1->deleteChar(testString,'y'));
 
-};
+};*/
 
 TEST(terminalTest, deleteCharInTheStartOfSecondWord){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
+    DeleteChar d1;
     std::string testString = "abcde xyz";
-    ASSERT_EQ("abcde _yz",t1->deleteChar(testString,'x'));
+    ASSERT_EQ("abcde _yz",d1.deleteChar(testString,'x'));
 
 };
 
-TEST(terminalTest, tryToDeleteCharThatIsNotIncludedInTwoStrings){
+/*TEST(terminalTest, tryToDeleteCharThatIsNotIncludedInTwoStrings){
     std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde xyz";
     ASSERT_EQ("abcde xyz",t1->deleteChar(testString,'g'));
@@ -96,15 +98,29 @@ TEST(terminalTest, deleteNewLineChar){
     std::string testString = "abcde\nxyz";
     ASSERT_EQ("abcde_xyz",t1->deleteChar(testString,'\n'));
 
-};
+};*/
 
 TEST(terminalTest, deleteCharFronEchoInputWithFlagN){
     TerminalInput t1;
-    t1.setOrginalContent(t1.getData("echo -n Hello World"));
-    t1.setProcessedContent(t1.deleteChar(t1.getOrginalContent(),'l'));
+    t1.getData("echo -n Hello World");
+    DeleteChar del;
+    std::string result = del.deleteChar(t1.getOrginalContent(),'l');
+    t1.setProcessedContent(result);
     ASSERT_EQ("He__o Wor_d",t1.getProcessesContent());
 
 };
+
+TEST(terminalTest, reverseOneLineInput){
+    TerminalInput t1;
+    t1.getData("echo -n Hello World");
+    ReverseData r1;
+    std::string result = r1.reverseData(t1.getOrginalContent());
+    t1.setProcessedContent(result);
+    ASSERT_EQ("dlroW olleH",t1.getProcessesContent());
+
+};
+
+
 
 /*TEST(terminalTest, deleteCharFronEchoInput){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
