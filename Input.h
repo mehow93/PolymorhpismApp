@@ -15,6 +15,7 @@ public:
     std::string& getOrginalContent() { return mOrginalContent;}    
     std::string getProcessesContent() { return mProcessedContent;}
     void setProcessedContent(std::string Input) {mProcessedContent = Input;}
+    void setOriginalContent(std::string Input) {mOrginalContent = Input;}
     virtual ~Input() = default;
     virtual void getData(std::string source) = 0;
 
