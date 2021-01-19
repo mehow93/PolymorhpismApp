@@ -1,18 +1,17 @@
 #include "Operations.h"
 #include <bits/stdc++.h>
 
-std::string DeleteChar::deleteChar(std::string& inputString, char charToDelete){
-    std::string result = inputString; //copy string to avoid overwritting orginal input
-
-    for (auto& stringChar : result){
+std::string DeleteChar::deleteChar(std::string inputString, char charToDelete){
+    for (auto& stringChar : inputString){
         if( stringChar == charToDelete)
             stringChar = '_';
     }
-    return result;
+    return inputString;
 }
 
-std::string ReverseData::reverseData(std::string& inputData){
-    std::string result = inputData;
-    reverse(result.begin(), result.end());
-    return result;
+std::string ReverseData::reverseData(std::string inputData){
+    reverse(inputData.begin(), inputData.end());
+    return inputData;
 };
+
+
