@@ -5,65 +5,64 @@
 
 TEST(terminalTest, oneLineInput){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    t1->getData("echo -n Hello World");
-    ASSERT_EQ("Hello World", t1->getOrginalContent());
+    EXPECT_EQ("Hello World", t1->getData("echo -n Hello World"));
 };
 
-/*TEST(terminalTest, inputWithWhiteSpace){
+TEST(terminalTest, inputWithWhiteSpace){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    ASSERT_EQ("Hello World\n", t1->getData("echo Hello World"));
+    EXPECT_EQ("Hello World\n", t1->getData("echo Hello World"));
 };
 
 TEST(terminalTest, twoLineInput){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    ASSERT_EQ("Hello\nWorld\n", t1->getData("bash -c \"echo -e 'Hello\nWorld'\""));
+    EXPECT_EQ("Hello\nWorld\n", t1->getData("bash -c \"echo -e 'Hello\nWorld'\""));
 };
 
 TEST(terminalTest, twoFlags){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    ASSERT_EQ("Hello\nWorld", t1->getData("bash -c \"echo -ne 'Hello\nWorld'\""));
+    EXPECT_EQ("Hello\nWorld", t1->getData("bash -c \"echo -ne 'Hello\nWorld'\""));
 };
 
 TEST(terminalTest, fileContent){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    ASSERT_EQ("T\ne\ns\nt\n", t1->getData("cat inputTest.txt"));
+    EXPECT_EQ("T\ne\ns\nt\n", t1->getData("cat inputTest.txt"));
 
 };
 
 TEST(terminalTest, deleteFirstChar){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde";
-    ASSERT_EQ("_bcde",t1->deleteChar(testString,'a'));
+    DeleteChar d1;
+    EXPECT_EQ("_bcde",d1.deleteChar(testString,'a'));
 
 };
 
 TEST(terminalTest, deleteSecondChar){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde";
-    ASSERT_EQ("a_cde",t1->deleteChar(testString,'b'));
+    DeleteChar d1;
+    EXPECT_EQ("a_cde",d1.deleteChar(testString,'b'));
 
 };
 
 TEST(terminalTest, deleteLastChar){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde";
-    ASSERT_EQ("abcd_",t1->deleteChar(testString,'e'));
+    DeleteChar d1;
+    EXPECT_EQ("abcd_",d1.deleteChar(testString,'e'));
 
 };
 
 TEST(terminalTest, tryToDeleteCharThatIsNotIncludedInString){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde";
-    ASSERT_EQ("abcde",t1->deleteChar(testString,'z'));
+    DeleteChar d1;
+    EXPECT_EQ("abcde",d1.deleteChar(testString,'z'));
 
 };
 
 TEST(terminalTest, deleteCharInTheMiddleOfSecondWord){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
     std::string testString = "abcde xyz";
-    ASSERT_EQ("abcde x_z",t1->deleteChar(testString,'y'));
+    DeleteChar d1;
+    EXPECT_EQ("abcde x_z",d1.deleteChar(testString,'y'));
 
-};*/
+};
 
 TEST(terminalTest, deleteCharInTheStartOfSecondWord){
     DeleteChar d1;
@@ -72,97 +71,132 @@ TEST(terminalTest, deleteCharInTheStartOfSecondWord){
 
 };
 
-/*TEST(terminalTest, tryToDeleteCharThatIsNotIncludedInTwoStrings){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
+TEST(terminalTest, tryToDeleteCharThatIsNotIncludedInTwoStrings){
+    DeleteChar d1;
     std::string testString = "abcde xyz";
-    ASSERT_EQ("abcde xyz",t1->deleteChar(testString,'g'));
+    EXPECT_EQ("abcde xyz",d1.deleteChar(testString,'g'));
 
 };
 
 TEST(terminalTest, deleteSpace){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
+    DeleteChar d1;
     std::string testString = "abcde xyz";
-    ASSERT_EQ("abcde_xyz",t1->deleteChar(testString,' '));
+    EXPECT_EQ("abcde_xyz",d1.deleteChar(testString,' '));
 
 };
 
 TEST(terminalTest, deleteCharInInputWithNewLineChar){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
+    DeleteChar d1;
     std::string testString = "abcde\nxyz";
-    ASSERT_EQ("abc_e\nxyz",t1->deleteChar(testString,'d'));
+    EXPECT_EQ("abc_e\nxyz",d1.deleteChar(testString,'d'));
 
 };
 
 TEST(terminalTest, deleteNewLineChar){
-    std:: unique_ptr<Operations>t1 = std::make_unique<TerminalInput>();
+    DeleteChar d1;
     std::string testString = "abcde\nxyz";
-    ASSERT_EQ("abcde_xyz",t1->deleteChar(testString,'\n'));
+    EXPECT_EQ("abcde_xyz",d1.deleteChar(testString,'\n'));
 
-};*/
+};
 
-TEST(terminalTest, deleteCharFronEchoInputWithFlagN){
+TEST(terminalInputClassTest, settingContents){
     TerminalInput t1;
-    t1.getData("echo -n Hello World");
+    std::string data = t1.getData("echo -n Hello World");
+    t1.setOriginalContent(data);
+    ReverseData r1;
+    std::string result = r1.reverseData(data);
+    t1.setProcessedContent(result);
+    ASSERT_EQ("Hello World",t1.getOrginalContent());
+    ASSERT_EQ("dlroW olleH",t1.getProcessesContent());
+    EXPECT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+
+};
+TEST(terminalInputClassTest, deleteCharFromEchoInputWithFlagN){
+    TerminalInput t1;
+    std::string data = t1.getData("echo -n Hello World");
+    t1.setOriginalContent(data);
     DeleteChar del;
     std::string result = del.deleteChar(t1.getOrginalContent(),'l');
     t1.setProcessedContent(result);
-    ASSERT_EQ("He__o Wor_d",t1.getProcessesContent());
+    EXPECT_EQ("He__o Wor_d",t1.getProcessesContent());
 
 };
 
-TEST(terminalTest, reverseOneLineInput){
+TEST(terminalInputClassTest, reverseOneLineInput){
     TerminalInput t1;
-    t1.getData("echo -n Hello World");
+    std::string data = t1.getData("echo -n Hello World");
     ReverseData r1;
-    std::string result = r1.reverseData(t1.getOrginalContent());
+    std::string result = r1.reverseData(data);
     t1.setProcessedContent(result);
-    ASSERT_EQ("dlroW olleH",t1.getProcessesContent());
+    t1.setOriginalContent(data);
+    EXPECT_EQ("dlroW olleH",t1.getProcessesContent());
+};
+
+TEST(terminalInputClassTest, deleteCharFronEchoInput){
+    TerminalInput t1;
+    std::string data = t1.getData("echo -n Hello World");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'l');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("He__o Wor_d",t1.getProcessesContent());
 
 };
 
-
-
-/*TEST(terminalTest, deleteCharFronEchoInput){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("echo Hello World");
-    ASSERT_EQ("He__o Wor_d\n",t1->deleteChar(testString,'l'));
-
-};
-
-TEST(terminalTest, deleteCharFronEchoInputWithTwoFlags){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("bash -c \"echo -ne 'Hello\nWorld'\"");
-    ASSERT_EQ("He__o\nWor_d",t1->deleteChar(testString,'l'));
+TEST(terminalInputClassTest, deleteCharFronEchoInputWithTwoFlags){
+    TerminalInput t1;
+    std::string data = t1.getData("bash -c \"echo -ne 'Hello\nWorld'\"");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'l');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("He__o\nWor_d",t1.getProcessesContent());
 
 };
 
-TEST(terminalTest, deleteDoubleNewLineChar){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("bash -c \"echo -e 'Hello\nWorld'\"");
-    ASSERT_EQ("Hello_World_",t1->deleteChar(testString,'\n'));
+TEST(terminalInputClassTest, deleteDoubleNewLineChar){
+    TerminalInput t1;
+    std::string data = t1.getData("bash -c \"echo -ne 'Hello\nWorld\n'\"");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'\n');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("Hello_World_",t1.getProcessesContent());
 
 };
 
-TEST(terminalTest, deleteFirstCharFromTxtFile){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("cat inputTest.txt");
-    ASSERT_EQ("_\ne\ns\nt\n",t1->deleteChar(testString,'T'));
+TEST(terminalInputClassTest, deleteFirstCharFromTxtFile){
+    TerminalInput t1;
+    std::string data = t1.getData("cat inputTest.txt");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'T');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("_\ne\ns\nt\n",t1.getProcessesContent());
 
 };
 
-TEST(terminalTest, deleteLastCharFromTxtFile){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("cat inputTest.txt");
-    ASSERT_EQ("T\ne\ns\n_\n",t1->deleteChar(testString,'t'));
+TEST(terminalInputClassTest, deleteLastCharFromTxtFile){
+    TerminalInput t1;
+    std::string data = t1.getData("cat inputTest.txt");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'t');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("T\ne\ns\n_\n",t1.getProcessesContent());
 
 };
 
-TEST(terminalTest, deleteNewLineCharFromTxtFile){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    std::string testString = t1->getData("cat inputTest.txt");
-    ASSERT_EQ("T_e_s_t_",t1->deleteChar(testString,'\n'));
+TEST(terminalInputClassTest, deleteNewLineCharFromTxtFile){
+    TerminalInput t1;
+    std::string data = t1.getData("cat inputTest.txt");
+    t1.setOriginalContent(data);
+    DeleteChar d1;
+    std::string result = d1.deleteChar(data,'\n');
+    t1.setProcessedContent(result);
+    EXPECT_EQ("T_e_s_t_",t1.getProcessesContent());
 
-};*/
+};
 int main(int argc, char **argv)
 {
 
