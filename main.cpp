@@ -228,6 +228,19 @@ TEST(FileInputClassGetDataTest, emptyFile){
     EXPECT_EQ("",f1.getData("emptyFile.txt"));
 
 }
+
+TEST(FileInputClassTest, fullTest){
+    FileInput f1;
+    DeleteChar d1;
+    std::string data = f1.getData("test.txt");
+    f1.setOriginalContent(data);
+    ASSERT_EQ("T\ne\ns\nt\n",f1.getOrginalContent());
+    std::string processed = d1.deleteChar(data,'s');
+    f1.setProcessedContent(processed);
+    ASSERT_EQ("T\ne\n_\nt\n",f1.getProcessesContent());
+    EXPECT_NE(f1.getOrginalContent(),f1.getProcessesContent());
+
+}
 int main(int argc, char **argv)
 {
 
