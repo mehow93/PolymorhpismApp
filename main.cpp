@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include "TerminalInput.h"
 #include "Operations.h"
+#include "FileInput.h"
 
 TEST(terminalTest, oneLineInput){
     std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
@@ -197,6 +198,36 @@ TEST(terminalInputClassTest, deleteNewLineCharFromTxtFile){
     EXPECT_EQ("T_e_s_t_",t1.getProcessesContent());
 
 };
+
+TEST(FileInputClassGetDataTest, fileWithSingleLine){
+    FileInput f1;
+    EXPECT_EQ("Hello World\n",f1.getData("singleLineTest.txt"));
+
+}
+
+TEST(FileInputClassGetDataTest, fileWithFewLines){
+    FileInput f1;
+    EXPECT_EQ("T\ne\ns\nt\n",f1.getData("test.txt"));
+
+}
+
+TEST(FileInputClassGetDataTest, fileWithTwoLines){
+    FileInput f1;
+    EXPECT_EQ("Hello World\nHello user\n",f1.getData("helloUser.txt"));
+
+}
+
+TEST(FileInputClassGetDataTest, fileThatDoesntExist){
+    FileInput f1;
+    EXPECT_EQ("File doesn't exist!",f1.getData("a.txt"));
+
+}
+
+TEST(FileInputClassGetDataTest, emptyFile){
+    FileInput f1;
+    EXPECT_EQ("",f1.getData("emptyFile.txt"));
+
+}
 int main(int argc, char **argv)
 {
 
