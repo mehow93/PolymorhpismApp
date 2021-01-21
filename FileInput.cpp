@@ -7,8 +7,13 @@ std::string FileInput::getData(std::string source){
     fileOut.open(source);
     std::string result;
     char c;
-    while(fileOut.get(c)){
-        result = result + c;
+    if(fileOut.is_open()){ //start reading file if file was opened correctly
+        while(fileOut.get(c)){
+            result = result + c;
+        }
+    }
+    else{
+         result = "File doesn't exist!";
     }
     fileOut.close();
     return result;
