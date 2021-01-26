@@ -3,8 +3,10 @@
 #include "Input.h"
 
 class StdinInput : public Input {
+private:
+    using Input::getData;
 public:
-    std::string getData();
+    virtual std::string getData();
     virtual ~StdinInput() = default;
 };
 #endif // STDININPUT_H
