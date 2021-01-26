@@ -5,7 +5,7 @@
 class StdinInput : public Input {
 public:
     std::string getData();
-    virtual ~StdinInput()override;
+    virtual ~StdinInput() = default;
 };
 #endif // STDININPUT_H
 
