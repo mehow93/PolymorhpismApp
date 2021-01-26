@@ -10,8 +10,7 @@
 class FileInput : public Input {
 
 public:
-    std::string getData(std::string source) override;
-
-
+    virtual std::string getData(std::string source) override;
+    virtual ~FileInput()override;
 
 };

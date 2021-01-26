@@ -1,10 +1,11 @@
 #ifndef STDININPUT_H
 #define STDININPUT_H
-
-#endif // STDININPUT_H
 #include "Input.h"
 
 class StdinInput : public Input {
 public:
-    virtual std::string getData(std::string source) override;
+    std::string getData();
+    virtual ~StdinInput()override;
 };
+#endif // STDININPUT_H
+

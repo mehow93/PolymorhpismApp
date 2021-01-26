@@ -5,15 +5,19 @@
 
 #include <sstream>
 #include <fstream>
+#include <iostream>
+#include <stdio.h>
+#include <string>
 #include "Input.h"
-#include "Operations.h"
+
+
 
 class TerminalInput : public Input {
 
 
 public:
-
-
     virtual std::string getData(std::string source) override;
+
 };
+
 
