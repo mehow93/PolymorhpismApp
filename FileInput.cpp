@@ -2,9 +2,9 @@
 #include "FileInput.h"
 
 
-std::string FileInput::getData(std::string source){
+std::string FileInput::getData(){
     std::ifstream fileOut;
-    fileOut.open(source);
+    fileOut.open(this->mFileName);
     std::string result;
     char c;
     if(fileOut.is_open()){ //start reading file if file was opened correctly
@@ -14,7 +14,7 @@ std::string FileInput::getData(std::string source){
         fileOut.close();
     }
     else{
-         result = "File doesn't exist!";
+        result = "File doesn't exist!";
     }
 
     return result;
