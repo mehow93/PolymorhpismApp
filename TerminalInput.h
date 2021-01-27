@@ -7,11 +7,13 @@
 #include <string>
 #include "Input.h"
 class TerminalInput : public Input {
-
-
+private:
+    std::string mCommand;
 public:
-    virtual std::string getData(std::string source) override;
+    TerminalInput(std::string Command) : mCommand(Command){}
     virtual ~TerminalInput() = default;
+    virtual std::string getData() override;
+
 
 };
 #endif // TERMINALINPUT_H
