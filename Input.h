@@ -5,8 +5,8 @@
 #include <stdlib.h>
 class Input{
 protected:
-    std::string mOrginalContent;
-    std::string mProcessedContent;
+    std::string mOrginalContent = "defaultData";
+    std::string mProcessedContent = "defaultData";
 public:
     std::string& getOrginalContent() { return mOrginalContent;}
     std::string& getProcessesContent() { return mProcessedContent;}
