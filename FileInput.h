@@ -5,10 +5,13 @@
 #include <fstream>
 #include "Input.h"
 class FileInput : public Input {
-
+private:
+    std::string mFileName;
 public:
-    virtual std::string getData(std::string source) override;
+    FileInput(std::string fileName) : mFileName(fileName){}
     virtual ~FileInput()=default;
+    virtual std::string getData(std::string source) override;
+
 
 };
 
