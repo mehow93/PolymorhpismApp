@@ -3,30 +3,31 @@
 #include "TerminalInput.h"
 #include "Operations.h"
 #include "FileInput.h"
+#include "StdinInput.h"
 
 TEST(terminalTest, oneLineInput){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    EXPECT_EQ("Hello World", t1->getData("echo -n Hello World"));
+    std:: unique_ptr<Input> t1 = std::make_unique<TerminalInput>("echo -n Hello World");
+    EXPECT_EQ("Hello World", t1->getData());
 };
 
 TEST(terminalTest, inputWithWhiteSpace){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    EXPECT_EQ("Hello World\n", t1->getData("echo Hello World"));
+    std:: unique_ptr<Input> t1 = std::make_unique<TerminalInput>("echo Hello World");
+    EXPECT_EQ("Hello World\n", t1->getData());
 };
 
 TEST(terminalTest, twoLineInput){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    EXPECT_EQ("Hello\nWorld\n", t1->getData("bash -c \"echo -e 'Hello\nWorld'\""));
+    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>("bash -c \"echo -e 'Hello\nWorld'\"");
+    EXPECT_EQ("Hello\nWorld\n", t1->getData());
 };
 
 TEST(terminalTest, twoFlags){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    EXPECT_EQ("Hello\nWorld", t1->getData("bash -c \"echo -ne 'Hello\nWorld'\""));
+    std::unique_ptr<Input> t1 = std::make_unique<TerminalInput>("bash -c \"echo -ne 'Hello\nWorld'\"");
+    EXPECT_EQ("Hello\nWorld", t1->getData());
 };
 
 TEST(terminalTest, fileContent){
-    std:: unique_ptr<Input>t1 = std::make_unique<TerminalInput>();
-    EXPECT_EQ("T\ne\ns\nt\n", t1->getData("cat inputTest.txt"));
+    std:: unique_ptr<Input> t1 = std::make_unique<TerminalInput>("cat inputTest.txt");
+    EXPECT_EQ("T\ne\ns\nt\n", t1->getData());
 
 };
 
@@ -101,8 +102,8 @@ TEST(terminalTest, deleteNewLineChar){
 };
 
 TEST(terminalInputClassTest, settingContents){
-    TerminalInput t1;
-    std::string data = t1.getData("echo -n Hello World");
+    TerminalInput t1("echo -n Hello World");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     ReverseData r1;
     std::string result = r1.reverseData(data);
@@ -113,8 +114,8 @@ TEST(terminalInputClassTest, settingContents){
 
 };
 TEST(terminalInputClassTest, deleteCharFromEchoInputWithFlagN){
-    TerminalInput t1;
-    std::string data = t1.getData("echo -n Hello World");
+    TerminalInput t1("echo -n Hello World");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar del;
     std::string result = del.deleteChar(t1.getOrginalContent(),'l');
@@ -124,8 +125,8 @@ TEST(terminalInputClassTest, deleteCharFromEchoInputWithFlagN){
 };
 
 TEST(terminalInputClassTest, reverseOneLineInput){
-    TerminalInput t1;
-    std::string data = t1.getData("echo -n Hello World");
+    TerminalInput t1("echo -n Hello World");
+    std::string data = t1.getData();
     ReverseData r1;
     std::string result = r1.reverseData(data);
     t1.setProcessedContent(result);
@@ -134,8 +135,8 @@ TEST(terminalInputClassTest, reverseOneLineInput){
 };
 
 TEST(terminalInputClassTest, deleteCharFronEchoInput){
-    TerminalInput t1;
-    std::string data = t1.getData("echo -n Hello World");
+    TerminalInput t1("echo -n Hello World");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'l');
@@ -145,8 +146,8 @@ TEST(terminalInputClassTest, deleteCharFronEchoInput){
 };
 
 TEST(terminalInputClassTest, deleteCharFronEchoInputWithTwoFlags){
-    TerminalInput t1;
-    std::string data = t1.getData("bash -c \"echo -ne 'Hello\nWorld'\"");
+    TerminalInput t1("bash -c \"echo -ne 'Hello\nWorld'\"");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'l');
@@ -156,8 +157,8 @@ TEST(terminalInputClassTest, deleteCharFronEchoInputWithTwoFlags){
 };
 
 TEST(terminalInputClassTest, deleteDoubleNewLineChar){
-    TerminalInput t1;
-    std::string data = t1.getData("bash -c \"echo -ne 'Hello\nWorld\n'\"");
+    TerminalInput t1("bash -c \"echo -ne 'Hello\nWorld\n'\"");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'\n');
@@ -167,8 +168,8 @@ TEST(terminalInputClassTest, deleteDoubleNewLineChar){
 };
 
 TEST(terminalInputClassTest, deleteFirstCharFromTxtFile){
-    TerminalInput t1;
-    std::string data = t1.getData("cat inputTest.txt");
+    TerminalInput t1("cat inputTest.txt");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'T');
@@ -178,8 +179,8 @@ TEST(terminalInputClassTest, deleteFirstCharFromTxtFile){
 };
 
 TEST(terminalInputClassTest, deleteLastCharFromTxtFile){
-    TerminalInput t1;
-    std::string data = t1.getData("cat inputTest.txt");
+    TerminalInput t1("cat inputTest.txt");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'t');
@@ -189,8 +190,8 @@ TEST(terminalInputClassTest, deleteLastCharFromTxtFile){
 };
 
 TEST(terminalInputClassTest, deleteNewLineCharFromTxtFile){
-    TerminalInput t1;
-    std::string data = t1.getData("cat inputTest.txt");
+    TerminalInput t1("cat inputTest.txt");
+    std::string data = t1.getData();
     t1.setOriginalContent(data);
     DeleteChar d1;
     std::string result = d1.deleteChar(data,'\n');
@@ -199,40 +200,55 @@ TEST(terminalInputClassTest, deleteNewLineCharFromTxtFile){
 
 };
 
-TEST(FileInputClassGetDataTest, fileWithSingleLine){
-    FileInput f1;
-    EXPECT_EQ("Hello World\n",f1.getData("singleLineTest.txt"));
+TEST(fileInputClassGetDataTest, fileWithSingleLine){
+    FileInput f1("singleLineTest.txt");
+    EXPECT_EQ("Hello World\n",f1.getData());
 
 }
 
-TEST(FileInputClassGetDataTest, fileWithFewLines){
-    FileInput f1;
-    EXPECT_EQ("T\ne\ns\nt\n",f1.getData("test.txt"));
+TEST(fileInputClassGetDataTest, fileWithFewLines){
+    FileInput f1("test.txt");
+    EXPECT_EQ("T\ne\ns\nt\n",f1.getData());
 
 }
 
-TEST(FileInputClassGetDataTest, fileWithTwoLines){
-    FileInput f1;
-    EXPECT_EQ("Hello World\nHello user\n",f1.getData("helloUser.txt"));
+TEST(fileInputClassGetDataTest, fileWithTwoLines){
+    FileInput f1("helloUser.txt");
+    EXPECT_EQ("Hello World\nHello user\n",f1.getData());
 
 }
 
-TEST(FileInputClassGetDataTest, fileThatDoesntExist){
-    FileInput f1;
-    EXPECT_EQ("File doesn't exist!",f1.getData("a.txt"));
+TEST(fileInputClassGetDataTest, fileThatDoesntExist){
+    FileInput f1("a.txt");
+    EXPECT_EQ("File doesn't exist!",f1.getData());
 
 }
 
-TEST(FileInputClassGetDataTest, emptyFile){
-    FileInput f1;
-    EXPECT_EQ("",f1.getData("emptyFile.txt"));
+TEST(fileInputClassGetDataTest, emptyFile){
+    FileInput f1("emptyFile.txt");
+    EXPECT_EQ("",f1.getData());
 
 }
 
-TEST(FileInputClassTest, fullTest){
-    FileInput f1;
+TEST(fileInputClassTest, defaultValuesTest){
+    FileInput f1("test.txt");
+    ASSERT_EQ("defaultData",f1.getOrginalContent());
+    ASSERT_EQ("defaultData",f1.getProcessesContent());
+    EXPECT_EQ(f1.getOrginalContent(),f1.getProcessesContent());
+
+}
+
+TEST(fileInputClassTest, virtualGetDataTest){
+    std::unique_ptr<Input> t1 = std::make_unique<FileInput>("singleLineTest.txt");
+    t1->setOriginalContent(t1->getData());
+    EXPECT_EQ("Hello World\n",t1->getOrginalContent());
+
+
+}
+TEST(fileInputClassTest, fullTest){
+    FileInput f1("test.txt");
     DeleteChar d1;
-    std::string data = f1.getData("test.txt");
+    std::string data = f1.getData();
     f1.setOriginalContent(data);
     ASSERT_EQ("T\ne\ns\nt\n",f1.getOrginalContent());
     std::string processed = d1.deleteChar(data,'s');
@@ -241,10 +257,14 @@ TEST(FileInputClassTest, fullTest){
     EXPECT_NE(f1.getOrginalContent(),f1.getProcessesContent());
 
 }
+
+
+
 int main(int argc, char **argv)
 {
 
     testing::InitGoogleTest(&argc, argv);
+
     return RUN_ALL_TESTS();
 
 
