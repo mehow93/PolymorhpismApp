@@ -258,6 +258,11 @@ TEST(fileInputClassTest, fullTest){
 
 }
 
+TEST(stdinInputTest, VirtaulGetDataTestSingleLineTest){
+
+    std::unique_ptr<Input> t1 = std::make_unique<StdinInput>();
+    EXPECT_EQ("T est\ne s t\ns t\n\n\n",t1->getData());
+}
 
 
 int main(int argc, char **argv)
