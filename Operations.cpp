@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 std::string DeleteChar::deleteChar(std::string inputString, char charToDelete){
-    for (auto& stringChar : inputString){
+    for (auto& stringChar : inputString){ 
         if( stringChar == charToDelete)
             stringChar = '_';
     }
