@@ -3,11 +3,17 @@
 #include "Input.h"
 
 
-class TcpIpInput : public Input {
 
+
+class TcpIpInput : public Input {
+private:
+    short mPort;
 
 public:
+    TcpIpInput(short port);
     virtual ~TcpIpInput() = default;
+    virtual std::string getData() override;
+
 };
 
 
