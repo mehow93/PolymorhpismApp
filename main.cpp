@@ -4,6 +4,7 @@
 #include "Operations.h"
 #include "FileInput.h"
 #include "StdinInput.h"
+#include "TcpIpInput.h"
 
 TEST(terminalTest, oneLineInput){
     std:: unique_ptr<Input> t1 = std::make_unique<TerminalInput>("echo -n Hello World");
@@ -258,12 +259,17 @@ TEST(fileInputClassTest, fullTest){
 
 }
 
-TEST(stdinInputTest, VirtaulGetDataTestSingleLineTest){
+/*TEST(stdinInputTest, VirtaulGetDataTestSingleLineTest){
 
     std::unique_ptr<Input> t1 = std::make_unique<StdinInput>();
     EXPECT_EQ("T est\ne s t\ns t\n\n\n",t1->getData());
-}
+}*/
 
+TEST(TcpIpInputClassTest, virtualGetDataTest){
+    std::unique_ptr<Input> t1 = std::make_unique<TcpIpInput>(8080,AF_INET,INADDR_ANY);
+    t1->getData();
+    EXPECT_EQ(1,1);
+}
 
 int main(int argc, char **argv)
 {
