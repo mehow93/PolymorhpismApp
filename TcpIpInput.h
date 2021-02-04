@@ -4,7 +4,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
-
+#define MAX_BUFFER_SIZE 1024
 
 
 
@@ -12,7 +12,7 @@ class TcpIpInput : public Input {
 private:
     short mPort;
     struct sockaddr_in mAddress;
-    char mBuffer[1024] = {0};
+    char mBuffer[MAX_BUFFER_SIZE] = {0};
     int mServerFile;
 
 public:

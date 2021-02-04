@@ -14,7 +14,7 @@ TcpIpInput::TcpIpInput(uint16_t port, unsigned short domain, unsigned int type){
     // Creating socket file descriptor
     if ((mServerFile = socket(domain, SOCK_STREAM, 0)) == 0)
     {
-        perror("socket failed");
+        perror("socket failed"); //prints understandable code error
         exit(EXIT_FAILURE);
     }
 
@@ -49,7 +49,7 @@ std::string TcpIpInput::getData(){
         perror("accept");
         exit(EXIT_FAILURE);
     }
-    valRead = read(newSocket , this->mBuffer, 1024);
+    valRead = read(newSocket , this->mBuffer, MAX_BUFFER_SIZE);
     printf("%s\n",this->mBuffer );
 
 
