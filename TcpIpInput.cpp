@@ -1,8 +1,10 @@
 #include "TcpIpInput.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 
-
-TcpIpInput::TcpIpInput(short port, unsigned short domain, unsigned int type){
+TcpIpInput::TcpIpInput(uint16_t port, unsigned short domain, unsigned int type){
 
     mAddress.sin_port = htons(port);
     mAddress.sin_family = domain;
