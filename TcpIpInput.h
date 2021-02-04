@@ -22,6 +22,7 @@ public:
     TcpIpInput(short port, unsigned short domain, unsigned int type);
     virtual ~TcpIpInput() = default;
     virtual std::string getData() override;
+    std::string bufferToString();
 
 };
 

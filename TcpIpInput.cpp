@@ -51,5 +51,10 @@ std::string TcpIpInput::getData(){
     printf("%s\n",this->mBuffer );
 
 
-    return "";
+    return bufferToString();
+}
+
+std::string TcpIpInput::bufferToString(){
+    std::string result(this->mBuffer);
+    return result;
 }
