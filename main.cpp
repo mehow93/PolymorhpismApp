@@ -265,20 +265,67 @@ TEST(fileInputClassTest, fullTest){
     EXPECT_EQ("T est\ne s t\ns t\n\n\n",t1->getData());
 }*/
 
-TEST(TcpIpInputClassTest, virtualGetDataTest){
-    std::unique_ptr<Input> t1 = std::make_unique<TcpIpInput>(8080,AF_INET,INADDR_ANY);
-    t1->getData();
-    EXPECT_EQ(1,1);
+/*TEST(TcpIpInputClassTest, virtualGetDataTest){
+    std::unique_ptr<Input> t1 = std::make_unique<TcpIpInput>(8080,AF_INET,INADDR_ANY);   
+    EXPECT_EQ("Hello\nfrom the other side\nclient\n",t1->getData());
+}*/
+
+TEST(TcpIpInputClassTest, classFullTestsDeletingS){
+    TcpIpInput t1(8080);
+    std::string data = t1.getData();
+    t1.setOriginalContent(data);
+    ASSERT_EQ("Hello\nfrom the other side\nclient\n",t1.getOrginalContent());
+    DeleteChar d1;
+    std::string processed = d1.deleteChar(data,'s');
+    t1.setProcessedContent(processed);
+    ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+    ASSERT_EQ("Hello\nfrom the other _ide\nclient\n",t1.getProcessesContent());
+
+
 }
 
+TEST(TcpIpInputClassTest, classFullTestsDeletingO){
+    TcpIpInput t1(8080);
+    std::string data = t1.getData();
+    t1.setOriginalContent(data);
+    ASSERT_EQ("Hello\nfrom the other side\nclient\n",t1.getOrginalContent());
+    DeleteChar d1;
+    std::string processed = d1.deleteChar(data,'o');
+    t1.setProcessedContent(processed);
+    ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+    EXPECT_EQ("Hell_\nfr_m the _ther side\nclient\n",t1.getProcessesContent());
+
+
+}
+
+TEST(TcpIpInputClassTest, classFullTestsDeletingNeLineChar){
+    TcpIpInput t1(8080);
+    std::string data = t1.getData();
+    t1.setOriginalContent(data);
+    ASSERT_EQ("Hello\nfrom the other side\nclient\n",t1.getOrginalContent());
+    DeleteChar d1;
+    std::string processed = d1.deleteChar(data,'\n');
+    t1.setProcessedContent(processed);
+    ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+    EXPECT_EQ("Hello_from the other side_client_",t1.getProcessesContent());
+}
+
+TEST(TcpIpInputClassTest, classFullTestsReverseData){
+    TcpIpInput t1(8080);
+    std::string data = t1.getData();
+    t1.setOriginalContent(data);
+    ASSERT_EQ("Hello\nfrom the other side\nclient\n",t1.getOrginalContent());
+    ReverseData r1;
+    std::string processed = r1.reverseData(data);
+    t1.setProcessedContent(processed);
+    ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+    EXPECT_EQ("\ntneilc\nedis rehto eht morf\nolleH",t1.getProcessesContent());
+}
 int main(int argc, char **argv)
 {
 
     testing::InitGoogleTest(&argc, argv);
 
     return RUN_ALL_TESTS();
-
-
-
 
 }

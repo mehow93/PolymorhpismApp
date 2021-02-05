@@ -33,16 +33,19 @@ TcpIpInput::TcpIpInput(uint16_t port, unsigned short domain, unsigned int type){
         perror("bind failed");
         exit(EXIT_FAILURE);
     }
+
 }
 
 std::string TcpIpInput::getData(){
     int newSocket, valRead;
     int addrLen = sizeof(this->mAddress);
+    char const *hello = "Hello from server";
     if (listen(this->mServerFile, 3) < 0)
     {
         perror("listen");
         exit(EXIT_FAILURE);
     }
+
     if ((newSocket = accept(this->mServerFile, (struct sockaddr *)&(this->mAddress),
                        (socklen_t*)&addrLen))<0)
     {
@@ -50,13 +53,27 @@ std::string TcpIpInput::getData(){
         exit(EXIT_FAILURE);
     }
     valRead = read(newSocket , this->mBuffer, MAX_BUFFER_SIZE);
-    printf("%s\n",this->mBuffer );
-
-
+    send(newSocket ,hello,strlen(hello),0);
     return bufferToString();
+
+
 }
 
 std::string TcpIpInput::bufferToString(){
     std::string result(this->mBuffer);
     return result;
+}
+
+TcpIpInput::~TcpIpInput(){
+    if(shutdown(mServerFile,2) < 0)
+    {
+        perror("shutdown");
+        exit(EXIT_FAILURE);
+    }
+    if(close(mServerFile) < 0)
+    {
+        perror("close");
+        exit(EXIT_FAILURE);
+    }
+    std::cout << "Closing connection" << std::endl;
 }
