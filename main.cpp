@@ -308,8 +308,18 @@ TEST(TcpIpInputClassTest, classFullTestsDeletingNeLineChar){
     t1.setProcessedContent(processed);
     ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
     EXPECT_EQ("Hello_from the other side_client_",t1.getProcessesContent());
+}
 
-
+TEST(TcpIpInputClassTest, classFullTestsReverseData){
+    TcpIpInput t1(8080);
+    std::string data = t1.getData();
+    t1.setOriginalContent(data);
+    ASSERT_EQ("Hello\nfrom the other side\nclient\n",t1.getOrginalContent());
+    ReverseData r1;
+    std::string processed = r1.reverseData(data);
+    t1.setProcessedContent(processed);
+    ASSERT_NE(t1.getOrginalContent(),t1.getProcessesContent());
+    EXPECT_EQ("\ntneilc\nedis rehto eht morf\nolleH",t1.getProcessesContent());
 }
 int main(int argc, char **argv)
 {
@@ -317,8 +327,5 @@ int main(int argc, char **argv)
     testing::InitGoogleTest(&argc, argv);
 
     return RUN_ALL_TESTS();
-
-
-
 
 }
